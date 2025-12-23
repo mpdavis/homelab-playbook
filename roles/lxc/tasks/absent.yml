@@ -1,0 +1,30 @@
+---
+
+- name: Check if LXC container exists
+  delegate_to: localhost
+  community.proxmox.proxmox_vm_info:
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ proxmox_api_password }}"
+    node: "{{ proxmox_node }}"
+    vmid: "{{ lxc_vmid }}"
+    type: lxc
+  register: lxc_info
+  failed_when: false
+
+- name: Delete LXC container
+  delegate_to: localhost
+  community.proxmox.proxmox:
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ proxmox_api_password }}"
+    node: "{{ proxmox_node }}"
+    vmid: "{{ lxc_vmid }}"
+    hostname: "{{ lxc_hostname }}"
+    state: absent
+  when: lxc_info.proxmox_vms is defined and lxc_info.proxmox_vms | length > 0
+
+- name: Display deletion status
+  ansible.builtin.debug:
+    msg: "Container {{ lxc_hostname }} (VMID: {{ lxc_vmid }}) has been removed"
+  when: lxc_info.proxmox_vms is defined and lxc_info.proxmox_vms | length > 0

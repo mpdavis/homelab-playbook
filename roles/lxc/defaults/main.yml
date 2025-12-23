@@ -1,0 +1,16 @@
+---
+
+proxmox_api_host: 10.0.1.1
+proxmox_api_user: root@pam
+proxmox_api_password: "{{ lookup('ansible.builtin.env', 'PROXMOX_PASSWORD') }}"
+proxmox_api_node: pve
+proxmox_node: pve
+
+# LXC lifecycle state
+lxc_state: present  # Options: present, absent, started, stopped
+
+# Default LXC container settings
+lxc_storage: "local-lvm"
+lxc_swap: 512
+lxc_onboot: true
+lxc_force_stop: false

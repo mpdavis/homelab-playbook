@@ -1,0 +1,9 @@
+---
+
+proxmox_api_host: 10.0.1.1
+proxmox_api_user: root@pam
+proxmox_node: pve
+# We are required to use the root account directly when creating bind mounts for accessing the NAS
+proxmox_api_password: "{{ lookup('ansible.builtin.env', 'PROXMOX_PASSWORD') }}"
+
+api_host: 10.0.1.1

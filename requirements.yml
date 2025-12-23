@@ -1,0 +1,14 @@
+---
+
+collections:
+  - name: community.general
+    version: ">=9.0.0"
+  - name: community.proxmox
+  - name: devopsarr.sonarr
+    version: ">=1.0.0"
+
+  # Future use: Additional *arr collections
+  # - name: devopsarr.radarr
+  #   version: ">=1.0.0"
+  # - name: devopsarr.prowlarr
+  #   version: ">=1.0.0"

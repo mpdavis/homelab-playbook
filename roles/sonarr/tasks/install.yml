@@ -1,0 +1,96 @@
+---
+
+- name: Install system dependencies
+  ansible.builtin.apt:
+    name:
+      - curl
+      - sqlite3
+      - libicu-dev
+      - libssl3t64
+    update_cache: true
+    cache_valid_time: 3600
+    state: present
+  become: true
+
+- name: Create Sonarr system group
+  ansible.builtin.group:
+    name: "{{ sonarr_group }}"
+    system: true
+    state: present
+  become: true
+
+- name: Create Sonarr system user
+  ansible.builtin.user:
+    name: "{{ sonarr_user }}"
+    group: "{{ sonarr_group }}"
+    system: true
+    shell: /usr/sbin/nologin
+    home: "{{ sonarr_data_dir }}"
+    create_home: false
+    state: present
+  become: true
+
+- name: Create Sonarr installation directory
+  ansible.builtin.file:
+    path: "{{ sonarr_install_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Create Sonarr data directory
+  ansible.builtin.file:
+    path: "{{ sonarr_data_dir }}"
+    state: directory
+    owner: "{{ sonarr_user }}"
+    group: "{{ sonarr_group }}"
+    mode: '0755'
+  become: true
+
+- name: Check if Sonarr binary exists
+  ansible.builtin.stat:
+    path: "{{ sonarr_install_dir }}/Sonarr"
+  register: sonarr_binary
+
+- name: Download and extract Sonarr
+  ansible.builtin.unarchive:
+    src: "{{ sonarr_download_url }}"
+    dest: "{{ sonarr_install_dir }}"
+    remote_src: true
+    owner: root
+    group: root
+    extra_opts:
+      - --strip-components=1
+  become: true
+  when: not sonarr_binary.stat.exists
+  notify:
+    - Restart_sonarr
+
+- name: Set ownership on Sonarr installation
+  ansible.builtin.file:
+    path: "{{ sonarr_install_dir }}"
+    owner: root
+    group: root
+    recurse: true
+    state: directory
+  become: true
+
+- name: Install Sonarr systemd service
+  ansible.builtin.template:
+    src: sonarr.service
+    dest: /etc/systemd/system/sonarr.service
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify:
+    - Sonarr_reload_systemd
+    - Restart_sonarr
+
+- name: Enable Sonarr service
+  ansible.builtin.systemd:
+    name: sonarr
+    enabled: true
+    daemon_reload: true
+  become: true

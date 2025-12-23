@@ -1,0 +1,8 @@
+---
+
+- name: Import install.yml
+  ansible.builtin.import_tasks: install.yml
+
+- name: Import configure.yml
+  ansible.builtin.import_tasks: configure.yml
+  when: sonarr_configure | default(true)

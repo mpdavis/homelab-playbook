@@ -1,0 +1,16 @@
+---
+
+# Installation paths
+sonarr_install_dir: "/opt/sonarr"
+sonarr_data_dir: "/var/lib/sonarr"
+
+# User and group
+sonarr_user: "sonarr"
+sonarr_group: "sonarr"
+
+# Application settings
+sonarr_port: 8989
+
+# Download settings
+sonarr_arch: "x64"
+sonarr_download_url: "https://services.sonarr.tv/v1/download/main/latest?version=4&os=linux&arch={{ sonarr_arch }}"

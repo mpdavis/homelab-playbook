@@ -1,0 +1,15 @@
+---
+# Install dependencies for the Ansible playbook
+- name: Bootstrap dependencies
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Install required Python libraries
+      ansible.builtin.pip:
+        name:
+          - proxmoxer
+          - requests
+          - passlib
+          - sonarr-py
+        state: present

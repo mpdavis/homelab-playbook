@@ -1,0 +1,11 @@
+---
+
+- name: Validate LXC state parameter
+  ansible.builtin.assert:
+    that:
+      - lxc_state is defined
+      - lxc_state in ['present', 'absent', 'started', 'stopped']
+    fail_msg: "lxc_state must be one of: present, absent, started, stopped (got: {{ lxc_state | default('undefined') }})"
+
+- name: Include tasks based on desired state
+  ansible.builtin.include_tasks: "{{ lxc_state }}.yml"

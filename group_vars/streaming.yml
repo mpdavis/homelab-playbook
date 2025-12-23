@@ -1,0 +1,2385 @@
+sonarr_config:
+  download_clients:
+  -   config_contract: QBittorrentSettings
+      enable: true
+      fields:
+      -   advanced: false
+          help_link: null
+          help_text: null
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Host
+          name: host
+          order: 0
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: textbox
+          unit: null
+          value: aion.feralhosting.com
+      -   advanced: false
+          help_link: null
+          help_text: null
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Port
+          name: port
+          order: 1
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: textbox
+          unit: null
+          value: 443
+      -   advanced: false
+          help_link: null
+          help_text: Use a secure connection. See Options -> Web UI -> 'Use HTTPS instead
+              of HTTP' in qBittorrent.
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Use SSL
+          name: useSsl
+          order: 2
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: checkbox
+          unit: null
+          value: true
+      -   advanced: true
+          help_link: null
+          help_text: Adds a prefix to the qBittorrent url, such as http://[host]:[port]/[urlBase]/api
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: URL Base
+          name: urlBase
+          order: 3
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: textbox
+          unit: null
+          value: /mpdavis/qbittorrent/
+      -   advanced: false
+          help_link: null
+          help_text: null
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Username
+          name: username
+          order: 4
+          placeholder: null
+          privacy: userName
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: textbox
+          unit: null
+          value: mpdavis
+      -   advanced: false
+          help_link: null
+          help_text: null
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Password
+          name: password
+          order: 5
+          placeholder: null
+          privacy: password
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: password
+          unit: null
+          value: '********'
+      -   advanced: false
+          help_link: null
+          help_text: Adding a category specific to Sonarr avoids conflicts with unrelated
+              non-Sonarr downloads. Using a category is optional, but strongly recommended.
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Category
+          name: tvCategory
+          order: 6
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: textbox
+          unit: null
+          value: tv-sonarr
+      -   advanced: true
+          help_link: null
+          help_text: Category for Sonarr to set after it has imported the download.
+              Sonarr will not remove torrents in that category even if seeding finished.
+              Leave blank to keep same category.
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Post-Import Category
+          name: tvImportedCategory
+          order: 7
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: textbox
+          unit: null
+          value: null
+      -   advanced: false
+          help_link: null
+          help_text: Priority to use when grabbing episodes that aired within the last
+              14 days
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Recent Priority
+          name: recentTvPriority
+          order: 8
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options:
+          -   hint: null
+              name: Last
+              order: 0
+              value: 0
+          -   hint: null
+              name: First
+              order: 1
+              value: 1
+          select_options_provider_action: null
+          type: select
+          unit: null
+          value: 0
+      -   advanced: false
+          help_link: null
+          help_text: Priority to use when grabbing episodes that aired over 14 days
+              ago
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Older Priority
+          name: olderTvPriority
+          order: 9
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options:
+          -   hint: null
+              name: Last
+              order: 0
+              value: 0
+          -   hint: null
+              name: First
+              order: 1
+              value: 1
+          select_options_provider_action: null
+          type: select
+          unit: null
+          value: 0
+      -   advanced: false
+          help_link: null
+          help_text: Initial state for torrents added to qBittorrent. Note that Forced
+              Torrents do not abide by seed restrictions
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Initial State
+          name: initialState
+          order: 10
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options:
+          -   hint: (0)
+              name: Started
+              order: 7
+              value: 0
+          -   hint: (1)
+              name: Force Started
+              order: 10
+              value: 1
+          -   hint: (2)
+              name: Stopped
+              order: 13
+              value: 2
+          select_options_provider_action: null
+          type: select
+          unit: null
+          value: 0
+      -   advanced: false
+          help_link: null
+          help_text: Download in sequential order (qBittorrent 4.1.0+)
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Sequential Order
+          name: sequentialOrder
+          order: 11
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: checkbox
+          unit: null
+          value: false
+      -   advanced: false
+          help_link: null
+          help_text: Download first and last pieces first (qBittorrent 4.1.0+)
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: First and Last First
+          name: firstAndLast
+          order: 12
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: checkbox
+          unit: null
+          value: false
+      -   advanced: false
+          help_link: null
+          help_text: Whether to use qBittorrent's configured content layout, the original
+              layout from the torrent or always create a subfolder (qBittorrent 4.3.2+)
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Content Layout
+          name: contentLayout
+          order: 13
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options:
+          -   hint: null
+              name: Default
+              order: 0
+              value: 0
+          -   hint: null
+              name: Original
+              order: 1
+              value: 1
+          -   hint: null
+              name: Subfolder
+              order: 2
+              value: 2
+          select_options_provider_action: null
+          type: select
+          unit: null
+          value: 0
+      id: 2
+      implementation: QBittorrent
+      implementation_name: qBittorrent
+      info_link: https://wiki.servarr.com/sonarr/supported#qbittorrent
+      message: null
+      name: qBittorrent
+      presets: null
+      priority: 1
+      protocol: torrent
+      remove_completed_downloads: true
+      remove_failed_downloads: true
+      tags: []
+  indexers:
+  -   config_contract: TorznabSettings
+      download_client_id: 0
+      enable_automatic_search: true
+      enable_interactive_search: true
+      enable_rss: true
+      fields:
+      -   advanced: false
+          help_link: null
+          help_text: null
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: URL
+          name: baseUrl
+          order: 0
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: textbox
+          unit: null
+          value: http://10.0.1.15:9696/1/
+      -   advanced: true
+          help_link: null
+          help_text: Path to the api, usually /api
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: API Path
+          name: apiPath
+          order: 1
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: textbox
+          unit: null
+          value: /api
+      -   advanced: false
+          help_link: null
+          help_text: null
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: API Key
+          name: apiKey
+          order: 2
+          placeholder: null
+          privacy: apiKey
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: textbox
+          unit: null
+          value: '********'
+      -   advanced: false
+          help_link: null
+          help_text: Drop down list, leave blank to disable standard/daily shows
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Categories
+          name: categories
+          order: 3
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: newznabCategories
+          type: select
+          unit: null
+          value:
+          - 5000
+          - 5030
+          - 5040
+          - 5020
+      -   advanced: false
+          help_link: null
+          help_text: Drop down list, leave blank to disable anime
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Anime Categories
+          name: animeCategories
+          order: 4
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: newznabCategories
+          type: select
+          unit: null
+          value:
+          - 5070
+      -   advanced: false
+          help_link: null
+          help_text: Also search for anime using the standard numbering
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Anime Standard Format Search
+          name: animeStandardFormatSearch
+          order: 5
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: checkbox
+          unit: null
+          value: true
+      -   advanced: true
+          help_link: null
+          help_text: Please note if you change the category you will have to add required/restricted
+              rules about the subgroups to avoid foreign language releases.
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Additional Parameters
+          name: additionalParameters
+          order: 6
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: textbox
+          unit: null
+          value: null
+      -   advanced: true
+          help_link: null
+          help_text: What languages are normally in a multi release on this indexer?
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Multi Languages
+          name: multiLanguages
+          order: 7
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options:
+          -   hint: null
+              name: Original
+              order: 0
+              value: -2
+          -   hint: null
+              name: Arabic
+              order: 0
+              value: 26
+          -   hint: null
+              name: Bosnian
+              order: 0
+              value: 41
+          -   hint: null
+              name: Bulgarian
+              order: 0
+              value: 28
+          -   hint: null
+              name: Catalan
+              order: 0
+              value: 38
+          -   hint: null
+              name: Chinese
+              order: 0
+              value: 10
+          -   hint: null
+              name: Croatian
+              order: 0
+              value: 39
+          -   hint: null
+              name: Czech
+              order: 0
+              value: 25
+          -   hint: null
+              name: Danish
+              order: 0
+              value: 6
+          -   hint: null
+              name: Dutch
+              order: 0
+              value: 7
+          -   hint: null
+              name: English
+              order: 0
+              value: 1
+          -   hint: null
+              name: Estonian
+              order: 0
+              value: 42
+          -   hint: null
+              name: Finnish
+              order: 0
+              value: 16
+          -   hint: null
+              name: Flemish
+              order: 0
+              value: 19
+          -   hint: null
+              name: French
+              order: 0
+              value: 2
+          -   hint: null
+              name: German
+              order: 0
+              value: 4
+          -   hint: null
+              name: Greek
+              order: 0
+              value: 20
+          -   hint: null
+              name: Hebrew
+              order: 0
+              value: 23
+          -   hint: null
+              name: Hindi
+              order: 0
+              value: 27
+          -   hint: null
+              name: Hungarian
+              order: 0
+              value: 22
+          -   hint: null
+              name: Icelandic
+              order: 0
+              value: 9
+          -   hint: null
+              name: Indonesian
+              order: 0
+              value: 44
+          -   hint: null
+              name: Italian
+              order: 0
+              value: 5
+          -   hint: null
+              name: Japanese
+              order: 0
+              value: 8
+          -   hint: null
+              name: Korean
+              order: 0
+              value: 21
+          -   hint: null
+              name: Latvian
+              order: 0
+              value: 36
+          -   hint: null
+              name: Lithuanian
+              order: 0
+              value: 24
+          -   hint: null
+              name: Macedonian
+              order: 0
+              value: 45
+          -   hint: null
+              name: Malayalam
+              order: 0
+              value: 29
+          -   hint: null
+              name: Norwegian
+              order: 0
+              value: 15
+          -   hint: null
+              name: Persian
+              order: 0
+              value: 37
+          -   hint: null
+              name: Polish
+              order: 0
+              value: 12
+          -   hint: null
+              name: Portuguese
+              order: 0
+              value: 18
+          -   hint: null
+              name: Portuguese (Brazil)
+              order: 0
+              value: 33
+          -   hint: null
+              name: Romanian
+              order: 0
+              value: 35
+          -   hint: null
+              name: Russian
+              order: 0
+              value: 11
+          -   hint: null
+              name: Serbian
+              order: 0
+              value: 40
+          -   hint: null
+              name: Slovak
+              order: 0
+              value: 31
+          -   hint: null
+              name: Slovenian
+              order: 0
+              value: 46
+          -   hint: null
+              name: Spanish
+              order: 0
+              value: 3
+          -   hint: null
+              name: Spanish (Latino)
+              order: 0
+              value: 34
+          -   hint: null
+              name: Swedish
+              order: 0
+              value: 14
+          -   hint: null
+              name: Tamil
+              order: 0
+              value: 43
+          -   hint: null
+              name: Thai
+              order: 0
+              value: 32
+          -   hint: null
+              name: Turkish
+              order: 0
+              value: 17
+          -   hint: null
+              name: Ukrainian
+              order: 0
+              value: 30
+          -   hint: null
+              name: Vietnamese
+              order: 0
+              value: 13
+          select_options_provider_action: null
+          type: select
+          unit: null
+          value: []
+      -   advanced: true
+          help_link: null
+          help_text: While processing completed downloads Sonarr will treat these selected
+              filetypes as failed downloads.
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Fail Downloads
+          name: failDownloads
+          order: 8
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options:
+          -   hint: (0)
+              name: Executables
+              order: 7
+              value: 0
+          -   hint: (1)
+              name: Potentially Dangerous
+              order: 10
+              value: 1
+          select_options_provider_action: null
+          type: select
+          unit: null
+          value: []
+      -   advanced: true
+          help_link: null
+          help_text: Minimum number of seeders required.
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Minimum Seeders
+          name: minimumSeeders
+          order: 9
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: number
+          unit: null
+          value: 1
+      -   advanced: false
+          help_link: null
+          help_text: The ratio a torrent should reach before stopping, empty uses the
+              download client's default. Ratio should be at least 1.0 and follow the
+              indexers rules
+          help_text_warning: null
+          hidden: null
+          is_float: true
+          label: Seed Ratio
+          name: seedCriteria.seedRatio
+          order: 10
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: number
+          unit: null
+          value: 1.5
+      -   advanced: true
+          help_link: null
+          help_text: The time a torrent should be seeded before stopping, empty uses
+              the download client's default
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Seed Time
+          name: seedCriteria.seedTime
+          order: 11
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: number
+          unit: minutes
+          value: 15000
+      -   advanced: true
+          help_link: null
+          help_text: The time a season-pack torrent should be seeded before stopping,
+              empty uses the download client's default
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Season-Pack Seed Time
+          name: seedCriteria.seasonPackSeedTime
+          order: 12
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: number
+          unit: minutes
+          value: 15000
+      -   advanced: true
+          help_link: null
+          help_text: If a torrent is blocked by hash it may not properly be rejected
+              during RSS/Search for some indexers, enabling this will allow it to be
+              rejected after the torrent is grabbed, but before it is sent to the client.
+          help_text_warning: null
+          hidden: null
+          is_float: false
+          label: Reject Blocklisted Torrent Hashes While Grabbing
+          name: rejectBlocklistedTorrentHashesWhileGrabbing
+          order: 13
+          placeholder: null
+          privacy: normal
+          section: null
+          select_options: null
+          select_options_provider_action: null
+          type: checkbox
+          unit: null
+          value: false
+      id: 1
+      implementation: Torznab
+      implementation_name: Torznab
+      info_link: https://wiki.servarr.com/sonarr/supported#torznab
+      message: null
+      name: TorrentLeech (Prowlarr)
+      presets: null
+      priority: 25
+      protocol: torrent
+      season_search_maximum_single_episode_age: 0
+      supports_rss: true
+      supports_search: true
+      tags: []
+  quality_definitions:
+  -   id: 1
+      max_size: 199.9
+      min_size: 1
+      preferred_size: 95
+      quality:
+          id: 0
+          name: Unknown
+          resolution: 0
+          source: unknown
+      title: Unknown
+      weight: 1
+  -   id: 2
+      max_size: 100
+      min_size: 2
+      preferred_size: 95
+      quality:
+          id: 1
+          name: SDTV
+          resolution: 480
+          source: television
+      title: SDTV
+      weight: 2
+  -   id: 3
+      max_size: 100
+      min_size: 2
+      preferred_size: 95
+      quality:
+          id: 12
+          name: WEBRip-480p
+          resolution: 480
+          source: webRip
+      title: WEBRip-480p
+      weight: 3
+  -   id: 4
+      max_size: 100
+      min_size: 2
+      preferred_size: 95
+      quality:
+          id: 8
+          name: WEBDL-480p
+          resolution: 480
+          source: web
+      title: WEBDL-480p
+      weight: 3
+  -   id: 5
+      max_size: 100
+      min_size: 2
+      preferred_size: 95
+      quality:
+          id: 2
+          name: DVD
+          resolution: 480
+          source: dvd
+      title: DVD
+      weight: 4
+  -   id: 6
+      max_size: 100
+      min_size: 2
+      preferred_size: 95
+      quality:
+          id: 13
+          name: Bluray-480p
+          resolution: 480
+          source: bluray
+      title: Bluray-480p
+      weight: 5
+  -   id: 7
+      max_size: 100
+      min_size: 2
+      preferred_size: 95
+      quality:
+          id: 22
+          name: Bluray-576p
+          resolution: 576
+          source: bluray
+      title: Bluray-576p
+      weight: 6
+  -   id: 8
+      max_size: 125
+      min_size: 3
+      preferred_size: 95
+      quality:
+          id: 4
+          name: HDTV-720p
+          resolution: 720
+          source: television
+      title: HDTV-720p
+      weight: 7
+  -   id: 9
+      max_size: 125
+      min_size: 4
+      preferred_size: 95
+      quality:
+          id: 9
+          name: HDTV-1080p
+          resolution: 1080
+          source: television
+      title: HDTV-1080p
+      weight: 8
+  -   id: 10
+      max_size: null
+      min_size: 4
+      preferred_size: 95
+      quality:
+          id: 10
+          name: Raw-HD
+          resolution: 1080
+          source: televisionRaw
+      title: Raw-HD
+      weight: 9
+  -   id: 11
+      max_size: 130
+      min_size: 3
+      preferred_size: 95
+      quality:
+          id: 14
+          name: WEBRip-720p
+          resolution: 720
+          source: webRip
+      title: WEBRip-720p
+      weight: 10
+  -   id: 12
+      max_size: 130
+      min_size: 3
+      preferred_size: 95
+      quality:
+          id: 5
+          name: WEBDL-720p
+          resolution: 720
+          source: web
+      title: WEBDL-720p
+      weight: 10
+  -   id: 13
+      max_size: 130
+      min_size: 4
+      preferred_size: 95
+      quality:
+          id: 6
+          name: Bluray-720p
+          resolution: 720
+          source: bluray
+      title: Bluray-720p
+      weight: 11
+  -   id: 14
+      max_size: 130
+      min_size: 4
+      preferred_size: 95
+      quality:
+          id: 15
+          name: WEBRip-1080p
+          resolution: 1080
+          source: webRip
+      title: WEBRip-1080p
+      weight: 12
+  -   id: 15
+      max_size: 130
+      min_size: 4
+      preferred_size: 95
+      quality:
+          id: 3
+          name: WEBDL-1080p
+          resolution: 1080
+          source: web
+      title: WEBDL-1080p
+      weight: 12
+  -   id: 16
+      max_size: 155
+      min_size: 4
+      preferred_size: 95
+      quality:
+          id: 7
+          name: Bluray-1080p
+          resolution: 1080
+          source: bluray
+      title: Bluray-1080p
+      weight: 13
+  -   id: 17
+      max_size: null
+      min_size: 35
+      preferred_size: 95
+      quality:
+          id: 20
+          name: Bluray-1080p Remux
+          resolution: 1080
+          source: blurayRaw
+      title: Bluray-1080p Remux
+      weight: 14
+  -   id: 18
+      max_size: 199.9
+      min_size: 35
+      preferred_size: 95
+      quality:
+          id: 16
+          name: HDTV-2160p
+          resolution: 2160
+          source: television
+      title: HDTV-2160p
+      weight: 15
+  -   id: 19
+      max_size: null
+      min_size: 35
+      preferred_size: 95
+      quality:
+          id: 17
+          name: WEBRip-2160p
+          resolution: 2160
+          source: webRip
+      title: WEBRip-2160p
+      weight: 16
+  -   id: 20
+      max_size: null
+      min_size: 35
+      preferred_size: 95
+      quality:
+          id: 18
+          name: WEBDL-2160p
+          resolution: 2160
+          source: web
+      title: WEBDL-2160p
+      weight: 16
+  -   id: 21
+      max_size: null
+      min_size: 35
+      preferred_size: 95
+      quality:
+          id: 19
+          name: Bluray-2160p
+          resolution: 2160
+          source: bluray
+      title: Bluray-2160p
+      weight: 17
+  -   id: 22
+      max_size: null
+      min_size: 35
+      preferred_size: 95
+      quality:
+          id: 21
+          name: Bluray-2160p Remux
+          resolution: 2160
+          source: blurayRaw
+      title: Bluray-2160p Remux
+      weight: 18
+  quality_profiles:
+  -   cutoff: 1
+      cutoff_format_score: 0
+      format_items: []
+      id: 1
+      items:
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 0
+              name: Unknown
+              resolution: 0
+              source: unknown
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 1
+              name: SDTV
+              resolution: 480
+              source: television
+      -   allowed: true
+          id: 1000
+          items:
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 12
+                  name: WEBRip-480p
+                  resolution: 480
+                  source: webRip
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 8
+                  name: WEBDL-480p
+                  resolution: 480
+                  source: web
+          name: WEB 480p
+          quality: null
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 2
+              name: DVD
+              resolution: 480
+              source: dvd
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 13
+              name: Bluray-480p
+              resolution: 480
+              source: bluray
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 22
+              name: Bluray-576p
+              resolution: 576
+              source: bluray
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 4
+              name: HDTV-720p
+              resolution: 720
+              source: television
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 9
+              name: HDTV-1080p
+              resolution: 1080
+              source: television
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 10
+              name: Raw-HD
+              resolution: 1080
+              source: televisionRaw
+      -   allowed: true
+          id: 1001
+          items:
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 14
+                  name: WEBRip-720p
+                  resolution: 720
+                  source: webRip
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 5
+                  name: WEBDL-720p
+                  resolution: 720
+                  source: web
+          name: WEB 720p
+          quality: null
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 6
+              name: Bluray-720p
+              resolution: 720
+              source: bluray
+      -   allowed: true
+          id: 1002
+          items:
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 15
+                  name: WEBRip-1080p
+                  resolution: 1080
+                  source: webRip
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 3
+                  name: WEBDL-1080p
+                  resolution: 1080
+                  source: web
+          name: WEB 1080p
+          quality: null
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 7
+              name: Bluray-1080p
+              resolution: 1080
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 20
+              name: Bluray-1080p Remux
+              resolution: 1080
+              source: blurayRaw
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 16
+              name: HDTV-2160p
+              resolution: 2160
+              source: television
+      -   allowed: false
+          id: 1003
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 17
+                  name: WEBRip-2160p
+                  resolution: 2160
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 18
+                  name: WEBDL-2160p
+                  resolution: 2160
+                  source: web
+          name: WEB 2160p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 19
+              name: Bluray-2160p
+              resolution: 2160
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 21
+              name: Bluray-2160p Remux
+              resolution: 2160
+              source: blurayRaw
+      min_format_score: 0
+      min_upgrade_format_score: 1
+      name: Any
+      upgrade_allowed: false
+  -   cutoff: 1
+      cutoff_format_score: 0
+      format_items: []
+      id: 2
+      items:
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 0
+              name: Unknown
+              resolution: 0
+              source: unknown
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 1
+              name: SDTV
+              resolution: 480
+              source: television
+      -   allowed: true
+          id: 1000
+          items:
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 12
+                  name: WEBRip-480p
+                  resolution: 480
+                  source: webRip
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 8
+                  name: WEBDL-480p
+                  resolution: 480
+                  source: web
+          name: WEB 480p
+          quality: null
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 2
+              name: DVD
+              resolution: 480
+              source: dvd
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 13
+              name: Bluray-480p
+              resolution: 480
+              source: bluray
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 22
+              name: Bluray-576p
+              resolution: 576
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 4
+              name: HDTV-720p
+              resolution: 720
+              source: television
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 9
+              name: HDTV-1080p
+              resolution: 1080
+              source: television
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 10
+              name: Raw-HD
+              resolution: 1080
+              source: televisionRaw
+      -   allowed: false
+          id: 1001
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 14
+                  name: WEBRip-720p
+                  resolution: 720
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 5
+                  name: WEBDL-720p
+                  resolution: 720
+                  source: web
+          name: WEB 720p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 6
+              name: Bluray-720p
+              resolution: 720
+              source: bluray
+      -   allowed: false
+          id: 1002
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 15
+                  name: WEBRip-1080p
+                  resolution: 1080
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 3
+                  name: WEBDL-1080p
+                  resolution: 1080
+                  source: web
+          name: WEB 1080p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 7
+              name: Bluray-1080p
+              resolution: 1080
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 20
+              name: Bluray-1080p Remux
+              resolution: 1080
+              source: blurayRaw
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 16
+              name: HDTV-2160p
+              resolution: 2160
+              source: television
+      -   allowed: false
+          id: 1003
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 17
+                  name: WEBRip-2160p
+                  resolution: 2160
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 18
+                  name: WEBDL-2160p
+                  resolution: 2160
+                  source: web
+          name: WEB 2160p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 19
+              name: Bluray-2160p
+              resolution: 2160
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 21
+              name: Bluray-2160p Remux
+              resolution: 2160
+              source: blurayRaw
+      min_format_score: 0
+      min_upgrade_format_score: 1
+      name: SD
+      upgrade_allowed: false
+  -   cutoff: 4
+      cutoff_format_score: 0
+      format_items: []
+      id: 3
+      items:
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 0
+              name: Unknown
+              resolution: 0
+              source: unknown
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 1
+              name: SDTV
+              resolution: 480
+              source: television
+      -   allowed: false
+          id: 1000
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 12
+                  name: WEBRip-480p
+                  resolution: 480
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 8
+                  name: WEBDL-480p
+                  resolution: 480
+                  source: web
+          name: WEB 480p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 2
+              name: DVD
+              resolution: 480
+              source: dvd
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 13
+              name: Bluray-480p
+              resolution: 480
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 22
+              name: Bluray-576p
+              resolution: 576
+              source: bluray
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 4
+              name: HDTV-720p
+              resolution: 720
+              source: television
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 9
+              name: HDTV-1080p
+              resolution: 1080
+              source: television
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 10
+              name: Raw-HD
+              resolution: 1080
+              source: televisionRaw
+      -   allowed: true
+          id: 1001
+          items:
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 14
+                  name: WEBRip-720p
+                  resolution: 720
+                  source: webRip
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 5
+                  name: WEBDL-720p
+                  resolution: 720
+                  source: web
+          name: WEB 720p
+          quality: null
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 6
+              name: Bluray-720p
+              resolution: 720
+              source: bluray
+      -   allowed: false
+          id: 1002
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 15
+                  name: WEBRip-1080p
+                  resolution: 1080
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 3
+                  name: WEBDL-1080p
+                  resolution: 1080
+                  source: web
+          name: WEB 1080p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 7
+              name: Bluray-1080p
+              resolution: 1080
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 20
+              name: Bluray-1080p Remux
+              resolution: 1080
+              source: blurayRaw
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 16
+              name: HDTV-2160p
+              resolution: 2160
+              source: television
+      -   allowed: false
+          id: 1003
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 17
+                  name: WEBRip-2160p
+                  resolution: 2160
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 18
+                  name: WEBDL-2160p
+                  resolution: 2160
+                  source: web
+          name: WEB 2160p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 19
+              name: Bluray-2160p
+              resolution: 2160
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 21
+              name: Bluray-2160p Remux
+              resolution: 2160
+              source: blurayRaw
+      min_format_score: 0
+      min_upgrade_format_score: 1
+      name: HD-720p
+      upgrade_allowed: false
+  -   cutoff: 9
+      cutoff_format_score: 0
+      format_items: []
+      id: 4
+      items:
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 0
+              name: Unknown
+              resolution: 0
+              source: unknown
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 1
+              name: SDTV
+              resolution: 480
+              source: television
+      -   allowed: false
+          id: 1000
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 12
+                  name: WEBRip-480p
+                  resolution: 480
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 8
+                  name: WEBDL-480p
+                  resolution: 480
+                  source: web
+          name: WEB 480p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 2
+              name: DVD
+              resolution: 480
+              source: dvd
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 13
+              name: Bluray-480p
+              resolution: 480
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 22
+              name: Bluray-576p
+              resolution: 576
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 4
+              name: HDTV-720p
+              resolution: 720
+              source: television
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 9
+              name: HDTV-1080p
+              resolution: 1080
+              source: television
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 10
+              name: Raw-HD
+              resolution: 1080
+              source: televisionRaw
+      -   allowed: false
+          id: 1001
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 14
+                  name: WEBRip-720p
+                  resolution: 720
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 5
+                  name: WEBDL-720p
+                  resolution: 720
+                  source: web
+          name: WEB 720p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 6
+              name: Bluray-720p
+              resolution: 720
+              source: bluray
+      -   allowed: true
+          id: 1002
+          items:
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 15
+                  name: WEBRip-1080p
+                  resolution: 1080
+                  source: webRip
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 3
+                  name: WEBDL-1080p
+                  resolution: 1080
+                  source: web
+          name: WEB 1080p
+          quality: null
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 7
+              name: Bluray-1080p
+              resolution: 1080
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 20
+              name: Bluray-1080p Remux
+              resolution: 1080
+              source: blurayRaw
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 16
+              name: HDTV-2160p
+              resolution: 2160
+              source: television
+      -   allowed: false
+          id: 1003
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 17
+                  name: WEBRip-2160p
+                  resolution: 2160
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 18
+                  name: WEBDL-2160p
+                  resolution: 2160
+                  source: web
+          name: WEB 2160p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 19
+              name: Bluray-2160p
+              resolution: 2160
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 21
+              name: Bluray-2160p Remux
+              resolution: 2160
+              source: blurayRaw
+      min_format_score: 0
+      min_upgrade_format_score: 1
+      name: HD-1080p
+      upgrade_allowed: false
+  -   cutoff: 16
+      cutoff_format_score: 0
+      format_items: []
+      id: 5
+      items:
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 0
+              name: Unknown
+              resolution: 0
+              source: unknown
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 1
+              name: SDTV
+              resolution: 480
+              source: television
+      -   allowed: false
+          id: 1000
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 12
+                  name: WEBRip-480p
+                  resolution: 480
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 8
+                  name: WEBDL-480p
+                  resolution: 480
+                  source: web
+          name: WEB 480p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 2
+              name: DVD
+              resolution: 480
+              source: dvd
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 13
+              name: Bluray-480p
+              resolution: 480
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 22
+              name: Bluray-576p
+              resolution: 576
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 4
+              name: HDTV-720p
+              resolution: 720
+              source: television
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 9
+              name: HDTV-1080p
+              resolution: 1080
+              source: television
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 10
+              name: Raw-HD
+              resolution: 1080
+              source: televisionRaw
+      -   allowed: false
+          id: 1001
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 14
+                  name: WEBRip-720p
+                  resolution: 720
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 5
+                  name: WEBDL-720p
+                  resolution: 720
+                  source: web
+          name: WEB 720p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 6
+              name: Bluray-720p
+              resolution: 720
+              source: bluray
+      -   allowed: false
+          id: 1002
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 15
+                  name: WEBRip-1080p
+                  resolution: 1080
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 3
+                  name: WEBDL-1080p
+                  resolution: 1080
+                  source: web
+          name: WEB 1080p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 7
+              name: Bluray-1080p
+              resolution: 1080
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 20
+              name: Bluray-1080p Remux
+              resolution: 1080
+              source: blurayRaw
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 16
+              name: HDTV-2160p
+              resolution: 2160
+              source: television
+      -   allowed: true
+          id: 1003
+          items:
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 17
+                  name: WEBRip-2160p
+                  resolution: 2160
+                  source: webRip
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 18
+                  name: WEBDL-2160p
+                  resolution: 2160
+                  source: web
+          name: WEB 2160p
+          quality: null
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 19
+              name: Bluray-2160p
+              resolution: 2160
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 21
+              name: Bluray-2160p Remux
+              resolution: 2160
+              source: blurayRaw
+      min_format_score: 0
+      min_upgrade_format_score: 1
+      name: Ultra-HD
+      upgrade_allowed: false
+  -   cutoff: 4
+      cutoff_format_score: 0
+      format_items: []
+      id: 6
+      items:
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 0
+              name: Unknown
+              resolution: 0
+              source: unknown
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 1
+              name: SDTV
+              resolution: 480
+              source: television
+      -   allowed: false
+          id: 1000
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 12
+                  name: WEBRip-480p
+                  resolution: 480
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 8
+                  name: WEBDL-480p
+                  resolution: 480
+                  source: web
+          name: WEB 480p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 2
+              name: DVD
+              resolution: 480
+              source: dvd
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 13
+              name: Bluray-480p
+              resolution: 480
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 22
+              name: Bluray-576p
+              resolution: 576
+              source: bluray
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 4
+              name: HDTV-720p
+              resolution: 720
+              source: television
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 9
+              name: HDTV-1080p
+              resolution: 1080
+              source: television
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 10
+              name: Raw-HD
+              resolution: 1080
+              source: televisionRaw
+      -   allowed: true
+          id: 1001
+          items:
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 14
+                  name: WEBRip-720p
+                  resolution: 720
+                  source: webRip
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 5
+                  name: WEBDL-720p
+                  resolution: 720
+                  source: web
+          name: WEB 720p
+          quality: null
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 6
+              name: Bluray-720p
+              resolution: 720
+              source: bluray
+      -   allowed: true
+          id: 1002
+          items:
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 15
+                  name: WEBRip-1080p
+                  resolution: 1080
+                  source: webRip
+          -   allowed: true
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 3
+                  name: WEBDL-1080p
+                  resolution: 1080
+                  source: web
+          name: WEB 1080p
+          quality: null
+      -   allowed: true
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 7
+              name: Bluray-1080p
+              resolution: 1080
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 20
+              name: Bluray-1080p Remux
+              resolution: 1080
+              source: blurayRaw
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 16
+              name: HDTV-2160p
+              resolution: 2160
+              source: television
+      -   allowed: false
+          id: 1003
+          items:
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 17
+                  name: WEBRip-2160p
+                  resolution: 2160
+                  source: webRip
+          -   allowed: false
+              id: null
+              items: []
+              name: null
+              quality:
+                  id: 18
+                  name: WEBDL-2160p
+                  resolution: 2160
+                  source: web
+          name: WEB 2160p
+          quality: null
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 19
+              name: Bluray-2160p
+              resolution: 2160
+              source: bluray
+      -   allowed: false
+          id: null
+          items: []
+          name: null
+          quality:
+              id: 21
+              name: Bluray-2160p Remux
+              resolution: 2160
+              source: blurayRaw
+      min_format_score: 0
+      min_upgrade_format_score: 1
+      name: HD - 720p/1080p
+      upgrade_allowed: false
+  root_folders:
+  -   accessible: true
+      free_space: 28728505860096
+      id: 1
+      path: /mnt/data/TV
+      unmapped_folders: []
+  tags:
+  -   id: 1
+      label: 1 - michael

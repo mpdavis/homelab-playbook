@@ -1,0 +1,25 @@
+---
+
+galaxy_info:
+  author: Michael
+  description: Provisions LXC containers on Proxmox VE with idempotency checks
+
+  min_ansible_version: "2.15"
+
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+        - trixie
+
+  galaxy_tags:
+    - proxmox
+    - lxc
+    - containers
+    - infrastructure
+
+dependencies: []
+
+collections:
+  - community.proxmox
+  - community.general

@@ -1,0 +1,20 @@
+proxmox:
+  hosts:
+    pve:
+
+monitoring:
+  hosts:
+    grafana:
+    prometheus:
+
+streaming:
+  hosts:
+    jellyfin:
+    jellyseer:
+    radarr:
+    sonarr:
+      roles:
+        - lxc
+
+
+    prowlarr:

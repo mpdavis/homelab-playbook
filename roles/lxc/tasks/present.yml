@@ -1,0 +1,95 @@
+---
+
+- name: Validate required LXC variables are defined
+  ansible.builtin.assert:
+    that:
+      - lxc_vmid is defined
+      - lxc_hostname is defined
+      - lxc_ostemplate is defined
+      - ansible_host is defined
+    fail_msg: "Missing required LXC configuration variables in host_vars for {{ inventory_hostname }}"
+
+- name: Check if SSH public key exists
+  ansible.builtin.stat:
+    path: "{{ lookup('env', 'HOME') }}/.ssh/id_proxmox.pub"
+  register: pubkey_stat
+  delegate_to: localhost
+  run_once: true
+
+- name: Fail if SSH public key not found
+  ansible.builtin.fail:
+    msg: "SSH public key not found at ~/.ssh/id_proxmox.pub. Generate one with: ssh-keygen -t ed25519 -f ~/.ssh/id_proxmox"
+  when: not pubkey_stat.stat.exists
+  run_once: true
+
+- name: Check if LXC container exists
+  delegate_to: localhost
+  community.proxmox.proxmox_vm_info:
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ proxmox_api_password }}"
+    node: "{{ proxmox_node }}"
+    vmid: "{{ lxc_vmid }}"
+    type: lxc
+  register: lxc_info
+  failed_when: false
+
+- name: Set container exists fact
+  ansible.builtin.set_fact:
+    lxc_exists: "{{ lxc_info.proxmox_vms is defined and lxc_info.proxmox_vms | length > 0 }}"
+
+- name: Display container status
+  ansible.builtin.debug:
+    msg: "Container {{ lxc_hostname }} (VMID: {{ lxc_vmid }}) {{ 'already exists' if lxc_exists else 'will be created' }}"
+
+- name: Create LXC container on Proxmox
+  delegate_to: localhost
+  community.proxmox.proxmox:
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ proxmox_api_password }}"
+    node: "{{ proxmox_node }}"
+    vmid: "{{ lxc_vmid }}"
+    hostname: "{{ lxc_hostname }}"
+    ostemplate: "{{ lxc_ostemplate }}"
+    storage: "{{ lxc_storage }}"
+    cores: "{{ lxc_cores }}"
+    memory: "{{ lxc_memory }}"
+    swap: "{{ lxc_swap | default(512) }}"
+    disk: "{{ lxc_storage }}:{{ lxc_disk }}"
+    netif: "{{ lxc_netif }}"
+    onboot: "{{ lxc_onboot | default(true) }}"
+    pubkey: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_proxmox.pub') }}"
+    features: "{{ lxc_features | join(',') if lxc_features is defined else omit }}"
+    mounts: "{{ lxc_mounts | default(omit) }}"
+    state: present
+  when: not lxc_exists
+  register: lxc_create_result
+
+- name: Start LXC container if not running
+  delegate_to: localhost
+  community.proxmox.proxmox:
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ proxmox_api_password }}"
+    node: "{{ proxmox_node }}"
+    vmid: "{{ lxc_vmid }}"
+    hostname: "{{ lxc_hostname }}"
+    state: started
+
+- name: Wait for container to be reachable via SSH
+  ansible.builtin.wait_for:
+    host: "{{ ansible_host }}"
+    port: 22
+    delay: 5
+    timeout: 60
+    state: started
+  delegate_to: localhost
+  when: not lxc_exists or lxc_create_result.changed
+
+- name: Display container access information
+  ansible.builtin.debug:
+    msg:
+      - "Container {{ lxc_hostname }} (VMID: {{ lxc_vmid }}) is ready"
+      - "IP Address: {{ ansible_host }}"
+      - "SSH: ssh root@{{ ansible_host }} -i ~/.ssh/id_proxmox"

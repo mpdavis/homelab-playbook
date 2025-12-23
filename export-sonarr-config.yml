@@ -1,0 +1,99 @@
+---
+
+- name: Export Sonarr Configuration to YAML
+  hosts: localhost
+  gather_facts: false
+  vars_prompt:
+    - name: source_sonarr_host
+      prompt: "Enter the Sonarr host to export from (e.g., 10.0.1.13)"
+      private: false
+    - name: source_sonarr_port
+      prompt: "Enter the Sonarr port"
+      private: false
+      default: "8989"
+    - name: source_sonarr_api_key
+      prompt: "Enter the Sonarr API key (found in Settings > General > Security)"
+      private: true
+
+  tasks:
+    - name: Validate required variables
+      ansible.builtin.assert:
+        that:
+          - source_sonarr_host is defined
+          - source_sonarr_host | length > 0
+          - source_sonarr_port is defined
+          - source_sonarr_api_key is defined
+          - source_sonarr_api_key | length > 0
+        fail_msg: "Missing required variables. Please provide host, port, and API key."
+
+    - name: Debug connection details
+      ansible.builtin.debug:
+        msg:
+          - "Connecting to: http://{{ source_sonarr_host }}:{{ source_sonarr_port }}"
+          - "API Key length: {{ source_sonarr_api_key | length }}"
+
+    - name: Get root folders
+      devopsarr.sonarr.sonarr_root_folder_info:
+        sonarr_url: "http://{{ source_sonarr_host }}:{{ source_sonarr_port }}"
+        sonarr_api_key: "{{ source_sonarr_api_key }}"
+      register: root_folders
+
+    - name: Get quality profiles
+      devopsarr.sonarr.sonarr_quality_profile_info:
+        sonarr_url: "http://{{ source_sonarr_host }}:{{ source_sonarr_port }}"
+        sonarr_api_key: "{{ source_sonarr_api_key }}"
+      register: quality_profiles
+
+    - name: Get quality definitions
+      devopsarr.sonarr.sonarr_quality_info:
+        sonarr_url: "http://{{ source_sonarr_host }}:{{ source_sonarr_port }}"
+        sonarr_api_key: "{{ source_sonarr_api_key }}"
+      register: quality_definitions
+
+    - name: Get indexers
+      devopsarr.sonarr.sonarr_indexer_info:
+        sonarr_url: "http://{{ source_sonarr_host }}:{{ source_sonarr_port }}"
+        sonarr_api_key: "{{ source_sonarr_api_key }}"
+      register: indexers
+
+    - name: Get download clients
+      devopsarr.sonarr.sonarr_download_client_info:
+        sonarr_url: "http://{{ source_sonarr_host }}:{{ source_sonarr_port }}"
+        sonarr_api_key: "{{ source_sonarr_api_key }}"
+      register: download_clients
+
+    - name: Get tags
+      devopsarr.sonarr.sonarr_tag_info:
+        sonarr_url: "http://{{ source_sonarr_host }}:{{ source_sonarr_port }}"
+        sonarr_api_key: "{{ source_sonarr_api_key }}"
+      register: tags
+
+    - name: Build configuration structure
+      ansible.builtin.set_fact:
+        sonarr_exported_config:
+          root_folders: "{{ root_folders.root_folders }}"
+          quality_profiles: "{{ quality_profiles.quality_profiles }}"
+          quality_definitions: "{{ quality_definitions.qualities }}"
+          indexers: "{{ indexers.indexers }}"
+          download_clients: "{{ download_clients.download_clients }}"
+          tags: "{{ tags.tags }}"
+
+    - name: Save configuration to file
+      ansible.builtin.copy:
+        content: "{{ sonarr_exported_config | to_nice_yaml }}"
+        dest: "{{ playbook_dir }}/group_vars/sonarr_config.yml"
+        mode: '0644'
+
+    - name: Display export summary
+      ansible.builtin.debug:
+        msg:
+          - "Configuration exported successfully to group_vars/sonarr_config.yml"
+          - "Root folders: {{ root_folders.root_folders | length }}"
+          - "Quality profiles: {{ quality_profiles.quality_profiles | length }}"
+          - "Quality definitions: {{ quality_definitions.qualities | length }}"
+          - "Indexers: {{ indexers.indexers | length }}"
+          - "Download clients: {{ download_clients.download_clients | length }}"
+          - "Tags: {{ tags.tags | length }}"
+          - ""
+          - "Note: Review the exported file and remove any sensitive credentials"
+          - "before committing to version control!"

@@ -1,0 +1,25 @@
+---
+
+- name: Start LXC container
+  delegate_to: localhost
+  community.proxmox.proxmox:
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ proxmox_api_password }}"
+    node: "{{ proxmox_node }}"
+    vmid: "{{ lxc_vmid }}"
+    hostname: "{{ lxc_hostname }}"
+    state: started
+
+- name: Wait for container to be reachable via SSH
+  ansible.builtin.wait_for:
+    host: "{{ ansible_host }}"
+    port: 22
+    delay: 5
+    timeout: 60
+    state: started
+  delegate_to: localhost
+
+- name: Display container status
+  ansible.builtin.debug:
+    msg: "Container {{ lxc_hostname }} (VMID: {{ lxc_vmid }}) is running"

@@ -1,0 +1,29 @@
+---
+
+# Connection details
+ansible_host: 10.0.1.13
+
+# LXC Container specifications
+lxc_vmid: 404
+lxc_hostname: sonarr
+lxc_ostemplate: "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst"
+lxc_storage: "local-lvm"
+lxc_cores: 1
+lxc_memory: 1024
+lxc_swap: 512
+lxc_disk: "5"
+lxc_netif:
+  net0: "name=eth0,bridge=vmbr0,ip=10.0.1.13/16,gw=10.0.0.1"
+lxc_onboot: true
+lxc_features:
+  - nesting=0
+lxc_mounts:
+  mp0: "/mnt/lxc_shares/data,mp=/mnt/media"
+
+# Sonarr application configuration
+sonarr_version: "4.0.11.2680"
+sonarr_install_dir: "/opt/sonarr"
+sonarr_data_dir: "/var/lib/sonarr"
+sonarr_user: "sonarr"
+sonarr_group: "sonarr"
+sonarr_port: 8989

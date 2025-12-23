@@ -1,0 +1,14 @@
+---
+
+- name: Provision LXC Containers
+  hosts: sonarr
+  gather_facts: false
+  connection: local
+  roles:
+    - lxc
+
+- name: Configure Sonarr
+  hosts: sonarr
+  become: true
+  roles:
+    - sonarr

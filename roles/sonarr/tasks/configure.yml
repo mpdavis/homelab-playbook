@@ -1,0 +1,96 @@
+---
+
+- name: Wait for Sonarr to be fully started
+  ansible.builtin.uri:
+    url: "http://{{ ansible_host }}:{{ sonarr_port }}/api/v3/system/status"
+    method: GET
+    status_code: [200, 401]
+  register: sonarr_status
+  until: sonarr_status.status == 200 or sonarr_status.status == 401
+  retries: 30
+  delay: 2
+
+- name: Get API key from Sonarr config
+  ansible.builtin.shell: |
+    grep -oP '(?<=<ApiKey>)[^<]+' {{ sonarr_data_dir }}/config.xml
+  register: api_key_result
+  changed_when: false
+  become: true
+
+- name: Set Sonarr API key fact
+  ansible.builtin.set_fact:
+    sonarr_api_key: "{{ api_key_result.stdout }}"
+
+- name: Apply declarative configuration
+  when: sonarr_config is defined
+  block:
+    - name: Display configuration to be applied
+      ansible.builtin.debug:
+        msg:
+          - "Applying Sonarr configuration from sonarr_config variable"
+          - "Root folders: {{ sonarr_config.root_folders | default([]) | length }}"
+          - "Quality profiles: {{ sonarr_config.quality_profiles | default([]) | length }}"
+          - "Quality definitions: {{ sonarr_config.quality_definitions | default([]) | length }}"
+          - "Indexers: {{ sonarr_config.indexers | default([]) | length }}"
+          - "Download clients: {{ sonarr_config.download_clients | default([]) | length }}"
+          - "Tags: {{ sonarr_config.tags | default([]) | length }}"
+
+    - name: Create tags
+      devopsarr.sonarr.sonarr_tag:
+        sonarr_url: "http://{{ ansible_host }}:{{ sonarr_port }}"
+        sonarr_api_key: "{{ sonarr_api_key }}"
+        label: "{{ item.label }}"
+      loop: "{{ sonarr_config.tags | default([]) }}"
+      delegate_to: localhost
+      become: false
+      when: sonarr_config.tags is defined
+
+    - name: Create root folders
+      devopsarr.sonarr.sonarr_root_folder:
+        sonarr_url: "http://{{ ansible_host }}:{{ sonarr_port }}"
+        sonarr_api_key: "{{ sonarr_api_key }}"
+        path: "{{ item.path }}"
+      loop: "{{ sonarr_config.root_folders | default([]) }}"
+      delegate_to: localhost
+      become: false
+      ignore_errors: true  # Path may not exist on new system
+
+    - name: Update quality definitions
+      devopsarr.sonarr.sonarr_quality:
+        sonarr_url: "http://{{ ansible_host }}:{{ sonarr_port }}"
+        sonarr_api_key: "{{ sonarr_api_key }}"
+        name: "{{ item.quality.name }}"
+        title: "{{ item.title }}"
+        min_size: "{{ item.min_size if item.min_size is not none else omit }}"
+        max_size: "{{ item.max_size if item.max_size is not none else omit }}"
+        preferred_size: "{{ item.preferred_size if item.preferred_size is not none else omit }}"
+      loop: "{{ sonarr_config.quality_definitions | default([]) }}"
+      delegate_to: localhost
+      become: false
+      when: sonarr_config.quality_definitions is defined
+
+    - name: Configure quality profiles
+      devopsarr.sonarr.sonarr_quality_profile:
+        sonarr_url: "http://{{ ansible_host }}:{{ sonarr_port }}"
+        sonarr_api_key: "{{ sonarr_api_key }}"
+        name: "{{ item.name }}"
+        upgrade_allowed: "{{ item.upgrade_allowed | default(true) }}"
+        cutoff: "{{ item.cutoff | default(omit) }}"
+        qualities: "{{ item.qualities | default(omit) }}"
+      loop: "{{ sonarr_config.quality_profiles | default([]) }}"
+      delegate_to: localhost
+      become: false
+      when: sonarr_config.quality_profiles is defined
+
+    # Indexers and download clients contain sensitive credentials
+    # These should be managed separately or with ansible-vault
+    - name: Notice about indexers and download clients
+      ansible.builtin.debug:
+        msg:
+          - "Indexers and download clients contain sensitive credentials"
+          - "Configure these manually via the web UI or use ansible-vault"
+          - "Web UI: http://{{ ansible_host }}:{{ sonarr_port }}"
+
+    - name: Configuration complete
+      ansible.builtin.debug:
+        msg: "Sonarr configuration has been applied successfully!"
