@@ -23,3 +23,8 @@ loki_retention_days: 90
 # Storage settings (NAS mount)
 loki_nas_mount_point: "{{ loki_data_dir }}"
 loki_nas_credentials_file: "/etc/loki-cifs-credentials"
+
+# NAS connection details (must be set in host_vars)
+loki_nas_share: ""
+loki_nas_username: ""
+loki_nas_password: ""
