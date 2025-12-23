@@ -48,6 +48,8 @@ limits_config:
   max_streams_per_user: 5000
   max_query_length: 721h
   max_query_lookback: {{ loki_retention_days }}d
+  max_query_series: 5000
+  max_query_bytes_read: 5242880  # 5MB in bytes
   reject_old_samples: true
   reject_old_samples_max_age: 168h
 
