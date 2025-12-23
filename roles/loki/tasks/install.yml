@@ -74,9 +74,10 @@
     - Loki_reload_systemd
     - Restart_loki
 
-- name: Enable Loki service
+- name: Enable and start Loki service
   ansible.builtin.systemd:
     name: loki
     enabled: true
+    state: started
     daemon_reload: true
   become: true
