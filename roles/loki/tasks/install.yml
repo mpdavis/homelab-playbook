@@ -1,0 +1,82 @@
+---
+
+- name: Create Loki system group
+  ansible.builtin.group:
+    name: "{{ loki_group }}"
+    system: true
+    state: present
+  become: true
+
+- name: Create Loki system user
+  ansible.builtin.user:
+    name: "{{ loki_user }}"
+    group: "{{ loki_group }}"
+    system: true
+    shell: /usr/sbin/nologin
+    create_home: false
+    state: present
+  become: true
+
+- name: Create Loki installation directory
+  ansible.builtin.file:
+    path: "{{ loki_install_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Create Loki config directory
+  ansible.builtin.file:
+    path: "{{ loki_config_dir }}"
+    state: directory
+    owner: "{{ loki_user }}"
+    group: "{{ loki_group }}"
+    mode: '0755'
+  become: true
+
+- name: Check if Loki binary exists
+  ansible.builtin.stat:
+    path: "{{ loki_install_dir }}/loki"
+  register: loki_binary
+
+- name: Download and extract Loki
+  ansible.builtin.unarchive:
+    src: "{{ loki_download_url }}"
+    dest: "{{ loki_install_dir }}"
+    remote_src: true
+    owner: root
+    group: root
+  become: true
+  when: not loki_binary.stat.exists
+  notify:
+    - Restart_loki
+
+- name: Create symlink to Loki binary
+  ansible.builtin.file:
+    src: "{{ loki_install_dir }}/loki-linux-{{ loki_arch }}"
+    dest: "{{ loki_install_dir }}/loki"
+    state: link
+    owner: root
+    group: root
+  become: true
+  when: not loki_binary.stat.exists
+
+- name: Install Loki systemd service
+  ansible.builtin.template:
+    src: loki.service
+    dest: /etc/systemd/system/loki.service
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify:
+    - Loki_reload_systemd
+    - Restart_loki
+
+- name: Enable Loki service
+  ansible.builtin.systemd:
+    name: loki
+    enabled: true
+    daemon_reload: true
+  become: true
