@@ -1,0 +1,24 @@
+---
+
+# Vector version and download
+vector_version: "0.34.2"
+vector_arch: "x86_64"
+vector_download_url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-{{ vector_arch }}-unknown-linux-musl.tar.gz"
+
+# Installation paths
+vector_install_dir: "/opt/vector"
+vector_config_dir: "/etc/vector"
+vector_data_dir: "/var/lib/vector"
+
+# User and group
+vector_user: "vector"
+vector_group: "vector"
+
+# Loki endpoint (override in group_vars/all.yml)
+vector_loki_endpoint: "http://loki:3100"
+
+# Default log paths (override in host_vars)
+vector_log_paths: []
+
+# Environment label
+vector_environment: "homelab"

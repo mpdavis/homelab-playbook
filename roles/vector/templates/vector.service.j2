@@ -1,0 +1,29 @@
+[Unit]
+Description=Vector log collector and aggregator
+Documentation=https://vector.dev/docs/
+After=network.target
+
+[Service]
+Type=simple
+User={{ vector_user }}
+Group={{ vector_group }}
+SupplementaryGroups=systemd-journal
+UMask=0002
+ExecStart={{ vector_install_dir }}/bin/vector --config {{ vector_config_dir }}/vector.toml
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=10
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths={{ vector_data_dir }}
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictRealtime=true
+
+[Install]
+WantedBy=multi-user.target
