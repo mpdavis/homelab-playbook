@@ -127,6 +127,7 @@ Install with: `ansible-galaxy collection install -r requirements.yml`
 ## Environment Variables
 
 - `PROXMOX_PASSWORD`: Required for Proxmox API authentication (referenced in `group_vars/proxmox.yml:7`)
+- `LOKI_NAS_PASSWORD`: Required for Loki CIFS mount authentication (referenced in `host_vars/loki.yml:28`)
 
 ## SSH Key Requirements
 
@@ -184,6 +185,144 @@ ansible-playbook site.yml --limit sonarr -e lxc_state=stopped
 # Start a container
 ansible-playbook site.yml --limit sonarr -e lxc_state=started
 ```
+
+## Logging Infrastructure
+
+### Overview
+
+The homelab uses a centralized logging stack based on **Grafana Loki** and **Vector**:
+
+- **Loki** (on dedicated container): Log aggregation and storage system optimized for Kubernetes-style labels and LogQL queries
+- **Vector** (deployed on each service container): Lightweight log collector that ships logs to Loki
+- **Grafana**: Query and visualize logs using LogQL (Loki Query Language)
+
+### Architecture
+
+```
+[Service Container] -> Vector (log collector) -> Loki (log storage) -> Grafana (visualization)
+       |                      |                         |
+    systemd logs         vector.toml              loki-config.yml
+    application logs     syslog parser            90-day retention
+                        structured labels         NAS-backed storage
+```
+
+Key design decisions:
+- **NAS-backed storage**: Loki stores logs on a CIFS mount (`//10.0.1.10/loki-logs`) for durability and capacity
+- **Label-based indexing**: Vector enriches logs with labels (hostname, service, environment) for efficient querying
+- **90-day retention**: Logs are automatically deleted after 90 days (configurable via `loki_retention_days`)
+- **Syslog parsing**: Vector automatically parses syslog format and extracts structured fields
+
+### Adding Log Collection to Services
+
+To add log collection to a new service, deploy Vector as an additional role:
+
+1. **Update `site.yml`**: Add a third play for Vector configuration:
+   ```yaml
+   - name: Provision LXC Container for <Service>
+     hosts: <service>
+     gather_facts: false
+     connection: local
+     roles:
+       - lxc
+
+   - name: Configure <Service>
+     hosts: <service>
+     become: true
+     roles:
+       - <service>
+
+   - name: Configure Log Collection for <Service>
+     hosts: <service>
+     become: true
+     roles:
+       - vector
+   ```
+
+2. **Configure log paths** in `host_vars/<service>.yml`:
+   ```yaml
+   # Vector configuration for log collection
+   vector_log_paths:
+     - "/var/log/syslog"
+     - "/var/log/<service>/*.log"
+   ```
+
+3. **Deploy**: Run `ansible-playbook site.yml --limit <service>` to deploy the service and Vector agent
+
+Vector will automatically:
+- Collect logs from specified paths
+- Parse syslog format and extract timestamps, severity, facility
+- Add labels: `hostname`, `service` (from ansible_hostname), `environment` (homelab)
+- Ship logs to Loki endpoint (configured in `group_vars/all.yml`)
+
+### Querying Logs in Grafana
+
+Access Grafana at `http://grafana:3000` and use LogQL queries:
+
+```logql
+# All logs from a specific service
+{hostname="sonarr"}
+
+# Error logs across all services
+{environment="homelab"} |= "error" | line_format "{{.message}}"
+
+# Logs from a specific facility
+{hostname="sonarr", facility="cron"}
+
+# Recent logs with severity filtering
+{hostname="jellyfin"} | json | severity >= 4
+```
+
+Key labels available:
+- `hostname`: Container hostname (e.g., `sonarr`, `jellyfin`)
+- `service`: Same as hostname (from `ansible_hostname`)
+- `environment`: Deployment environment (`homelab`)
+- `facility`: Syslog facility (e.g., `cron`, `daemon`, `user`)
+
+Extracted fields from syslog:
+- `timestamp`: Log timestamp
+- `severity`: Syslog severity level (0-7)
+- `facility`: Syslog facility
+- `appname`: Application name
+- `procid`: Process ID
+- `message`: Log message content
+
+### Environment Variables
+
+The logging infrastructure requires:
+- `PROXMOX_PASSWORD`: Required for Proxmox API authentication
+- `LOKI_NAS_PASSWORD`: Password for CIFS mount authentication (referenced in `host_vars/loki.yml:28`)
+
+Set before deploying:
+```bash
+export PROXMOX_PASSWORD='your-proxmox-password'
+export LOKI_NAS_PASSWORD='your-nas-password'
+ansible-playbook site.yml --limit loki
+```
+
+### Role Details
+
+#### loki Role
+- Located in `roles/loki/`
+- Installs Grafana Loki log aggregation system
+- **Tasks**:
+  - `tasks/install.yml`: Downloads Loki binary, creates systemd service
+  - `tasks/configure_storage.yml`: Mounts CIFS share, creates credentials file
+- **Templates**:
+  - `loki-config.yml.j2`: Loki configuration with retention and storage settings
+  - `loki.service.j2`: Systemd unit file
+  - `loki-cifs-credentials.j2`: CIFS mount credentials
+- **Variables**: Override in `host_vars/loki.yml` (version, port, retention, NAS details)
+- **Storage**: Persists logs to NAS mount at `/mnt/loki-data`
+
+#### vector Role
+- Located in `roles/vector/`
+- Installs Vector log collector and ships logs to Loki
+- **Tasks**: Downloads Vector binary, configures sources/transforms/sinks, creates systemd service
+- **Templates**:
+  - `vector.toml.j2`: Vector pipeline configuration (syslog parser, label enrichment)
+  - `vector.service.j2`: Systemd unit file
+- **Variables**: Override in `host_vars/<service>.yml` (`vector_log_paths`)
+- **Automatic setup**: Parses syslog, adds structured labels, ships to Loki endpoint
 
 ## Looking Up Ansible Collection Documentation
 
