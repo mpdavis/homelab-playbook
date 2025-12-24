@@ -18,3 +18,7 @@ streaming:
 
 
     prowlarr:
+
+logging:
+  hosts:
+    loki:

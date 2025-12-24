@@ -27,3 +27,7 @@ sonarr_data_dir: "/var/lib/sonarr"
 sonarr_user: "sonarr"
 sonarr_group: "sonarr"
 sonarr_port: 8989
+
+# Vector log collection
+vector_log_paths:
+  - "{{ sonarr_data_dir }}/.config/Sonarr/logs/*.txt"

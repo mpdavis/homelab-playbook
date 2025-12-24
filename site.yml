@@ -12,3 +12,22 @@
   become: true
   roles:
     - sonarr
+
+- name: Provision Loki Container
+  hosts: loki
+  gather_facts: false
+  connection: local
+  roles:
+    - lxc
+
+- name: Configure Loki
+  hosts: loki
+  become: true
+  roles:
+    - loki
+
+- name: Configure Vector on Application Hosts
+  hosts: sonarr
+  become: true
+  roles:
+    - vector
