@@ -1,38 +1,12 @@
 ---
 
-- name: Install CIFS utilities
-  ansible.builtin.apt:
-    name: cifs-utils
-    state: present
-    update_cache: true
-  become: true
-
-- name: Create Loki CIFS credentials file
-  ansible.builtin.template:
-    src: loki-cifs-credentials.j2
-    dest: "{{ loki_nas_credentials_file }}"
-    owner: root
-    group: root
-    mode: "0600"
-  become: true
-  no_log: true
-
-- name: Create NAS mount point
+- name: Ensure Loki data directory exists
   ansible.builtin.file:
     path: "{{ loki_nas_mount_point }}"
     state: directory
     owner: "{{ loki_user }}"
     group: "{{ loki_group }}"
     mode: "0755"
-  become: true
-
-- name: Configure NAS mount in fstab
-  ansible.posix.mount:
-    path: "{{ loki_nas_mount_point }}"
-    src: "{{ loki_nas_share }}"
-    fstype: cifs
-    opts: "credentials={{ loki_nas_credentials_file }},uid={{ loki_user }},gid={{ loki_group }},dir_mode=0755,file_mode=0644"
-    state: mounted
   become: true
 
 - name: Create Loki data subdirectories

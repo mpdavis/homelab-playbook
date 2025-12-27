@@ -27,7 +27,7 @@
     - loki
 
 - name: Configure Vector on Application Hosts
-  hosts: sonarr
+  hosts: sonarr:radarr:prowlarr:jellyfin:jellyseer:grafana:prometheus
   become: true
   roles:
     - vector

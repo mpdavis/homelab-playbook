@@ -42,11 +42,10 @@ inputs = ["add_labels"]
 endpoint = "{{ vector_loki_endpoint }}"
 encoding.codec = "json"
 
-# Loki labels
-labels.hostname = "{{ "{{ hostname }}" }}"
-labels.service = "{{ "{{ service }}" }}"
-labels.environment = "{{ "{{ environment }}" }}"
-labels.log_type = "{{ "{{ log_type }}" }}"
+# Loki labels - use fields added in the remap transform
+labels.hostname = "{{ inventory_hostname }}"
+labels.service = "{{ inventory_hostname }}"
+labels.environment = "{{ vector_environment }}"
 
 # Batching configuration
 [sinks.loki.batch]
@@ -63,5 +62,5 @@ timeout_secs = 30
 # Buffer configuration for reliability
 [sinks.loki.buffer]
 type = "disk"
-max_size = 268435456  # 256MB
+max_size = 536870912  # 512MB
 when_full = "block"

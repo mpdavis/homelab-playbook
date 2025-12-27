@@ -1,9 +1,9 @@
 ---
 # Connection details
-ansible_host: 10.0.1.201
+ansible_host: 10.0.3.2
 
 # LXC Container specifications
-lxc_vmid: 201
+lxc_vmid: 302
 lxc_hostname: loki
 lxc_ostemplate: "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst"
 lxc_storage: "local-lvm"
@@ -12,17 +12,14 @@ lxc_memory: 4096
 lxc_swap: 512
 lxc_disk: "20"
 lxc_netif:
-  net0: "name=eth0,bridge=vmbr0,ip=10.0.1.201/16,gw=10.0.0.1"
+  net0: "name=eth0,bridge=vmbr0,ip=10.0.3.2/16,gw=10.0.0.1"
 lxc_onboot: true
 lxc_features:
   - nesting=0
+lxc_mounts:
+  mp0: "/mnt/lxc_shares/backups/loki,mp=/mnt/loki-data"
 
 # Loki configuration
 loki_version: "2.9.3"
 loki_port: 3100
 loki_retention_days: 90
-
-# NAS storage
-loki_nas_share: "//10.0.1.10/loki-logs"
-loki_nas_username: "loki"
-loki_nas_password: "{{ lookup('ansible.builtin.env', 'LOKI_NAS_PASSWORD') }}"

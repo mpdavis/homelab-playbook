@@ -62,6 +62,7 @@
     pubkey: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_proxmox.pub') }}"
     features: "{{ lxc_features | join(',') if lxc_features is defined else omit }}"
     mounts: "{{ lxc_mounts | default(omit) }}"
+    unprivileged: "{{ lxc_unprivileged | default(true) }}"
     state: present
   when: not lxc_exists
   register: lxc_create_result

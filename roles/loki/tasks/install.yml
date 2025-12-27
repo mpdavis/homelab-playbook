@@ -1,5 +1,13 @@
 ---
 
+- name: Create NAS access group for CIFS mount compatibility
+  ansible.builtin.group:
+    name: nasgroup
+    gid: 10000
+    system: false
+    state: present
+  become: true
+
 - name: Create Loki system group
   ansible.builtin.group:
     name: "{{ loki_group }}"
@@ -10,7 +18,8 @@
 - name: Create Loki system user
   ansible.builtin.user:
     name: "{{ loki_user }}"
-    group: "{{ loki_group }}"
+    group: nasgroup
+    groups: "{{ loki_group }}"
     system: true
     shell: /usr/sbin/nologin
     create_home: false
@@ -33,6 +42,14 @@
     owner: "{{ loki_user }}"
     group: "{{ loki_group }}"
     mode: '0755'
+  become: true
+
+- name: Install required packages for Loki installation
+  ansible.builtin.apt:
+    name:
+      - unzip
+    state: present
+    update_cache: true
   become: true
 
 - name: Check if Loki binary exists
@@ -62,9 +79,20 @@
   become: true
   when: not loki_binary.stat.exists
 
+- name: Install Loki configuration file
+  ansible.builtin.template:
+    src: loki-config.yml.j2
+    dest: "{{ loki_config_dir }}/config.yml"
+    owner: "{{ loki_user }}"
+    group: "{{ loki_group }}"
+    mode: '0644'
+  become: true
+  notify:
+    - Restart_loki
+
 - name: Install Loki systemd service
   ansible.builtin.template:
-    src: loki.service
+    src: loki.service.j2
     dest: /etc/systemd/system/loki.service
     owner: root
     group: root
